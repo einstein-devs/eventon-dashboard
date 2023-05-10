@@ -5,15 +5,16 @@ export default function telaLogin() {
     <div className={style.limiter}>
         <div className={style.containerLogin}>
             <div className={style.wrapLogin}>
-                <div className={style.loginMore}>
                     <div className={style.loginForm}>
                         <div className={style.loginFormTitle}>
-                            <input className="" type="text" name="ra"/>
+                            <input className={style.wrapInput} type="text" name="ra" placeholder="Login"/>
                             <br />
-                            <input className="" type="password" name="senha"/>
+                            <input className={style.wrapInput} type="password" name="senha" placeholder="Senha"/>
+
                             <br />
-                            <button>entrar</button>
-                        </div>
+                            <div className={style.containerLoginFormBtn}>
+                            <button className={style.loginFormBtn}>entrar</button>
+                            </div>
                     </div>
                 </div>
             </div>
