@@ -1,3 +1,22 @@
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+}
+
+@font-face {
+  font-family: Poppins-Medium;
+  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+}
+
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf'); 
+}
 .limiter {
     width: 100%;
     margin: 0 auto;
@@ -20,41 +39,50 @@
   
   .wrapLogin {
     width: 100%;
-    background-image: url("./images.jpg");
+    margin: auto;
+    background-image: url("./fundo-cursos-home.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 1;
     overflow: hidden;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
     flex-direction: row-reverse;
-  
+  }
+
+  .entrar{
+    color: #313131;
+    font-size: 28px;
+    font-family: Poppins-SemiBold;
+    display: flex;
+    height: 60px;
+    width: max-content;
   }
   .loginMore {
     width: calc(100% - 560px);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    position: relative;
     z-index: 1;
   }
   .loginForm {
-    width: 560px;
+    width: 50%;
+    margin-right: auto;
     min-height: 100vh;
-    display: block;
+    display: flex;
     background-color: #ffffff;
     padding: 173px 55px 55px 55px;
   }
+
   
   .loginFormTitle {
-    width: 100%;
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 15%;
     display: block;
-    font-family: Poppins-Regular;
+    font-family: Poppins-SemiBold;
     font-size: 30px;
     color: #333333;
     line-height: 1.2;
@@ -72,15 +100,16 @@
     width: 100%;
     height: 60px;
     position: relative;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;
-    margin-bottom: 10px; 
+    border: 1px solid rgb(223, 221, 221);
+    border-radius: 8px;
   }
 
   .wrapInput::placeholder{
     display: flex;
-    font-size: 20px;
-    color: rgb(223, 221, 221);
+    padding: 5%;
+    font-size: 16px;
+    font: Poppins-SemiBold;
+    color: #BFBFBF;
   }
 
   .containerLoginFormBtn {
@@ -104,16 +133,26 @@
     align-items: center;
     padding: 0 20px;
     width: 100%;
-    height: 50px;
-    border-color: #e6e6e6;
-    border-radius: 10px;
+    height: 60px;
+    border-radius: 8px;
+    border-color: #ffffff;
     background: #FF9839;
-  
-    font-family: bold;
-    font-size: 20px;
-    color: #fff;
+    border: none;
+
+    font-family: Poppins-SemiBold;
+    font-size: 16px;
+    color: #ffffff;
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 1px;
+
+  }
+
+  .esqueceuSenha{
+    font-family: Poppins-SemiBold;
+    margin-top: 70px;
+    font-size: 14px;
+    color: #FF9839;
+    text-decoration: none;
 
   }
