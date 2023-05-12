@@ -1,134 +1,152 @@
- .containerLogin {
-    width: 100%;  
-    min-height: 100vh;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-  }
-  
-  
-  .wrapLogin {
-    width: 100%;
-    margin: auto;
-    background-image: url("./fundo-cursos-home.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 1;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    flex-direction: row-reverse;
-  }
+.containerLogin {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
 
-  .entrar{
-    color: #313131;
-    font-size: 28px;
-    font-family: var(--font-poppins);
-    display: flex;
-    height: 60px;
-    width: max-content;
-  }
-  .loginMore {
-    width: calc(100% - 560px);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-  }
-  .loginForm {
-    width: 50%;
-    margin-right: auto;
-    min-height: 100vh;
-    display: flex;
-    background-color: #ffffff;
-    padding: 173px 55px 55px 55px;
-  }
+.wrapLogin {
+  width: 100%;
+  margin: auto;
+  background-image: url("./fundo-cursos-home.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-direction: row-reverse;
+}
 
-  
-  .loginFormTitle {
-    width: 50%;
-    margin-top: 5%;
-    margin-left: 25%;
-    margin-right: 15%;
-    display: block;
-    font-family: var(--font-poppins);
-    font-size: 30px;
-    color: #333333;
-    line-height: 1.2;
-    text-align: center;
-  }
+.entrar {
+  color: #313131;
+  font-size: 25px;
+  font-family: Arial;
+  display: flex;
+  height: 60px;
+  width: max-content;
+}
+.loginMore {
+  width: calc(100% - 560px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+.loginForm {
+  width: 50%;
+  margin-right: auto;
+  min-height: 100vh;
+  display: flex;
+  background-color: #ffffff;
+  padding: 173px 55px 55px 55px;
+}
 
-  .wrapInput {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    width: 100%;
-    height: 60px;
-    position: relative;
-    border: 1px solid rgb(223, 221, 221);
-    border-radius: 8px;
-  }
+.loginFormTitle {
+  width: 50%;
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-right: 15%;
+  display: block;
+  font-family: Arial;
+  font-size: 30px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+}
 
-  .wrapInput::placeholder{
-    display: flex;
-    padding: 5%;
-    font-size: 16px;
-    font-family: var(--font-poppins);
-    color: #BFBFBF;
-  }
+.wrapRa {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(223, 221, 221);
+  border-radius: 8px;
+}
 
-  .containerLoginFormBtn {
-    width: 100%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .loginFormBtn {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    width: 100%;
-    height: 60px;
-    border-radius: 8px;
-    border-color: #ffffff;
-    background: #FF9839;
-    border: none;
+.wrapSenha {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: -20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(223, 221, 221);
+  border-radius: 8px;
+}
 
-    font-family: var(--font-poppins);
-    font-size: 16px;
-    color: #ffffff;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.wrapRa::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #bfbfbf;
+}
+.wrapSenha::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #bfbfbf;
+}
 
-  }
+.containerLoginFormBtn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  .esqueceuSenha{
-    font-family: var(--font-poppins);
-    margin-top: 70px;
-    font-size: 14px;
-    color: #FF9839;
-    text-decoration: none;
+.loginFormBtn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border-color: #ffffff;
+  background: #ff9839;
+  border: none;
 
-  }
+  font-family: Arial;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.esqueceuSenha {
+  font-family: Arial;
+  margin-top: 70px;
+  font-size: 14px;
+  color: #ff9839;
+  text-decoration: none;
+}
