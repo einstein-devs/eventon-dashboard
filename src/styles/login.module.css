@@ -34,6 +34,7 @@
   height: 60px;
   width: max-content;
 }
+
 .loginMore {
   width: calc(100% - 560px);
   background-repeat: no-repeat;
@@ -41,6 +42,7 @@
   background-position: center;
   z-index: 1;
 }
+
 .loginForm {
   width: 50%;
   margin-right: auto;
@@ -63,7 +65,7 @@
   text-align: center;
 }
 
-.wrapRa {
+.wrapInput {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -76,22 +78,7 @@
   position: relative;
   border: 1px solid rgb(223, 221, 221);
   border-radius: 8px;
-}
-
-.wrapSenha {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-top: -20px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  width: 100%;
-  height: 40px;
-  position: relative;
-  border: 1px solid rgb(223, 221, 221);
-  border-radius: 8px;
+  padding: 5%;
 }
 
 .wrapRa::placeholder {
@@ -101,10 +88,11 @@
   font-family: Arial;
   color: #bfbfbf;
 }
+
 .wrapSenha::placeholder {
   display: flex;
   padding: 5%;
-  font-size: 12px;
+  font-size: 16px;
   font-family: Arial;
   color: #bfbfbf;
 }
@@ -135,9 +123,10 @@
   border-color: #ffffff;
   background: #ff9839;
   border: none;
+  cursor: pointer;
 
   font-family: Arial;
-  font-size: 14px;
+  font-size: 16px;
   color: #ffffff;
   line-height: 1.2;
   letter-spacing: 1px;
@@ -146,7 +135,7 @@
 .esqueceuSenha {
   font-family: Arial;
   margin-top: 70px;
-  font-size: 14px;
+  font-size: 16px;
   color: #ff9839;
   text-decoration: none;
 }
