@@ -34,6 +34,7 @@
   height: 60px;
   width: max-content;
 }
+
 .loginMore {
   width: calc(100% - 560px);
   background-repeat: no-repeat;
@@ -41,6 +42,7 @@
   background-position: center;
   z-index: 1;
 }
+
 .loginForm {
   width: 50%;
   margin-right: auto;
@@ -76,6 +78,7 @@
   position: relative;
   border: 1px solid rgb(223, 221, 221);
   border-radius: 8px;
+  padding: 5%;
 }
 
 .wrapSenha {
@@ -92,18 +95,18 @@
   position: relative;
   border: 1px solid rgb(223, 221, 221);
   border-radius: 8px;
+  padding: 5%;
 }
 
 .wrapRa::placeholder {
   display: flex;
-  padding: 5%;
   font-size: 12px;
   font-family: Arial;
   color: #bfbfbf;
 }
+
 .wrapSenha::placeholder {
   display: flex;
-  padding: 5%;
   font-size: 12px;
   font-family: Arial;
   color: #bfbfbf;
@@ -121,10 +124,7 @@
 }
 
 .loginFormBtn {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,6 +135,7 @@
   border-color: #ffffff;
   background: #ff9839;
   border: none;
+  cursor: pointer;
 
   font-family: Arial;
   font-size: 14px;
