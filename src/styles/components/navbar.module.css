@@ -1,7 +1,5 @@
 .navbar {
   height: 100%;
-  width: 100%;
-  max-width: 240px;
 
   border-right: 1px solid rgb(233, 233, 233);
 
@@ -9,7 +7,7 @@
   flex-direction: column;
   align-items: center;
 
-  padding: 12px 6px;
+  padding: 12px 32px;
 }
 
 .logo {

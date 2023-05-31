@@ -34,8 +34,6 @@ export async function signInRequest(
     if (response.status == 200) {
       let responseData = response.data["data"];
 
-      console.log(responseData);
-
       if (
         !["DIRETOR", "COORDENADOR"].includes(responseData.user.cargo.posicao)
       ) {

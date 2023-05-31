@@ -34,6 +34,7 @@ export default function telaLogin() {
 
       await signIn(data);
     } catch (error: any) {
+      console.log("ER " + error.message);
       toast.error(error?.message ?? "Ocorreu um erro ao realizar login!", {
         closeButton: true,
         closeOnClick: true,
@@ -86,8 +87,12 @@ export default function telaLogin() {
 
               <br />
               <div className={style.containerLoginFormBtn}>
-                <button type="submit" className={style.loginFormBtn}>
-                  Acessar
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={style.loginFormBtn}
+                >
+                  {isLoading ? "Carregando..." : "Acessar"}
                 </button>
                 <br />
                 <Link href="esqueci-senha" className={style.esqueceuSenha}>
