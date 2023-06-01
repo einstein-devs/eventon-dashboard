@@ -1,4 +1,4 @@
-import style from "@/styles/infoEventos.module.css";
+import style from "@/styles/criarEventos.module.css";
 import App from "./_app";
 import { FiPlusCircle } from "react-icons/fi";
 import Link from 'next/link';
@@ -46,19 +46,16 @@ export default function CriarEventos() {
           <div className={style.EventoItem}>
           </div>
         </div>
-        <form action="teste" className={style.Form_Pesquisa}>
-          <div>
-            <br /> <select className={style.Input} name="teste" id="teste">
-              <option value="teste">00</option>
-              <option value="teste">01</option>
-              <option value="teste">02</option>
-            </select>
-
-            <br /> <input className={style.Input} type="datetime-local" name="" id="" />
-            <br /> <input className={style.Input} type="text" name="" id="" />
-          </div>
-        </form>
-        <button className={style.loginFormBtn}>Gerar código</button>
+        <div className={style.Form_Pesquisa}>
+          <select className={style.Input} name="teste" id="teste" placeholder="Local">
+            <option value="opções">Sala 1</option>
+            <option value="opções">Sala 2</option>
+            <option value="opções">Sala 3</option>
+          </select>
+          <input className={style.Input} type="datetime-local" name="" id="" placeholder="Data e hora" />
+          <input className={style.Input} type="text" name="" id="" placeholder="Descrição" />
+        </div>
+        <button className={style.loginFormBtn}>Cadastrar</button>
       </div>
     </div >
   );
