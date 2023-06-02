@@ -1,17 +1,16 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { Poppins } from 'next/font/google';
+import { AuthProvider } from "@/contexts/auth.context";
+import "@/styles/globals.css";
+import type { AppProps } from "next/app";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (    
-    <main className="Poppins">
-      <Component {...pageProps} />
-    </main>
-  ); 
+  return (
+    <>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+      <ToastContainer />
+    </>
+  );
 }
-
-const poppins = Poppins({
-  weight: '400',
-  subsets: ['latin'],
-});
- 

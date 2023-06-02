@@ -151,3 +151,8 @@
   color: #ff9839;
   text-decoration: none;
 }
+
+.errorMessage {
+  font-size: 0.6rem;
+  color: red;
+}

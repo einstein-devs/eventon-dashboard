@@ -1,43 +1,31 @@
+import { NavBar } from "@/components/navbar";
+import { Evento } from "@/entities/evento";
+import { api } from "@/services/api";
 import style from "@/styles/eventos.module.css";
-import App from "./_app";
-import { FiPlusCircle } from "react-icons/fi";
+import { HOST_API } from "@/utils/api-config";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 
 export default function Eventos() {
+  const [eventos, setEventos] = useState<Evento[]>([]);
+
+  useEffect(() => {
+    getEventos();
+  }, []);
+
+  async function getEventos() {
+    try {
+      const response = await api.get("/eventos");
+      const responseData = await response.data;
+
+      setEventos(responseData["data"]);
+    } catch {}
+  }
+
   return (
     <div className={style.App}>
-      <div className={style.Menu}>
-        <div className={style.Div_Logo}>
-          <img
-            src="https://pbs.twimg.com/profile_images/540229261915746304/MFvI8XH3.png"
-            alt="Imagem Logo Einstein"
-            className={style.Logo}
-          />
-        </div>
-        <div className={style.Div_Listagem}>
-          <ul className={style.Listagem}>
-            <li>
-              <a href="#" className={style.Links_Menu}>
-                Alunos
-              </a>
-            </li>
-            <li>
-              <a href="#" className={style.Links_Menu}>
-                Coordenadores
-              </a>
-            </li>
-            <li>
-              <a href="#" className={style.Links_Menu}>
-                Eventos
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className={style.Div_Button_Sair}>
-          <a href="#" className={style.Button_Sair}>
-            Sair
-          </a>
-        </div>
-      </div>
+      <NavBar />
 
       <div className={style.Div_dashboard}>
         <form action="" className={style.Form_Pesquisa}>
@@ -48,13 +36,49 @@ export default function Eventos() {
           />
         </form>
         <div className={style.DivEventos}>
-          <a className={style.a} href="/infoEventos"><div className={style.EventoItem}><p className={style.p}>Evento 1</p></div></a>
-          <a className={style.a} href="/infoEventos"><div className={style.EventoItem}><p className={style.p}>Evento 2</p></div></a>
-          <a className={style.a} href="/infoEventos"><div className={style.EventoItem}><p className={style.p}>Evento 3</p></div></a>
-          <a className={style.a} href="/infoEventos"><div className={style.EventoItem}><p className={style.p}>Evento 4</p></div></a>
+          {eventos.map((evento) => {
+            return (
+              <a className={style.a} href="/infoEventos">
+                <div
+                  style={
+                    evento.urlImagem
+                      ? {
+                          backgroundImage: `url('${HOST_API}/imagens/${evento.urlImagem}')`,
+                        }
+                      : {
+                          background: "gray",
+                        }
+                  }
+                  className={style.EventoItem}
+                >
+                  <p className={style.p}>{evento.titulo}</p>
+                </div>
+              </a>
+            );
+          })}
         </div>
-        <a href="/criarEventos" className={style.CriarEventos}>Criar eventos</a>
+        <a href="/criarEventos" className={style.CriarEventos}>
+          Criar eventos
+        </a>
       </div>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "@eventon-dashboard.token": token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+      props: {},
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
