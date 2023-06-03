@@ -76,12 +76,15 @@
 
 .Div_dashboard {
   width: 100%;
-  height: 735px;
-  /* background-color: rgb(216, 225, 225); */
+  padding: 3rem;
+
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+
+  gap: 32px;
+
+  overflow-y: auto;
 }
 
 .Form_Pesquisa {
@@ -98,8 +101,10 @@
 .Input {
   border: none;
   background-color: #fbfbfb;
-  width: 1000px;
-  padding: 50%;
+  width: 100%;
+  height: 3rem;
+  padding: 1rem;
+  border-radius: 8px;
   font-size: 15px;
 }
 
@@ -119,9 +124,8 @@
 }
 
 .a {
-  box-shadow: 2px 2px 10px 2px #b4b3b3;
+  box-shadow: 2px 2px 6px -1px #b4b3b3;
   text-decoration: none;
-  height: 240px;
   display: flex;
   border-radius: 20px;
 }
@@ -137,27 +141,63 @@
 }
 
 .DivEventos {
-  display: grid;
-  height: 70%;
-  width: 70%;
-  max-width: 800px;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-top: 40px;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  padding-bottom: 24px;
 }
 
 .EventoItem {
   width: 100%;
-  height: 100%;
+  height: 200px;
+
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 .CriarEventos {
-  margin-top: 40px;
-  margin-left: 1100px;
+  background-color: #ffc839;
+  font-weight: bold;
+
   text-decoration: none;
-  color: #949494;
+  color: white;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SearchWrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+}
+
+.PaginacaoWrapper {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PaginacaoButton {
+  border: 0;
+  background: none;
+  font-weight: bold;
+  padding: 2rem;
+  cursor: pointer;
 }
