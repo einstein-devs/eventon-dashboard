@@ -1,0 +1,294 @@
+.containerTeste {
+  background: red;
+}
+
+.containerLogin {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+.wrapLogin {
+  width: 100%;
+  margin: auto;
+  background-image: url("./fundo-cursos-home.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-direction: row-reverse;
+}
+
+.entrar {
+  color: #313131;
+  font-size: 25px;
+  font-family: Arial;
+  display: flex;
+  height: 60px;
+  width: max-content;
+}
+.loginMore {
+  width: calc(100% - 560px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+.loginForm {
+  width: 50%;
+  margin-right: auto;
+  min-height: 100vh;
+  display: flex;
+  background-color: #ffffff;
+  padding: 173px 55px 55px 55px;
+}
+
+.loginFormTitle {
+  width: 50%;
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-right: 15%;
+  display: block;
+  font-family: Arial;
+  font-size: 30px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.wrapNome {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+.wrapSenha {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: -20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+.wrapEmail {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: -20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+.wrapConfirmaSenha {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: -20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+.wrapCurso {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: -20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+.wrapEmail::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #000000;
+}
+
+.wrapNome::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #000000;
+}
+
+.wrapCurso::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #000000;
+}
+
+.wrapSenha::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #000000;
+}
+
+.wrapConfirmaSenha::placeholder {
+  display: flex;
+  padding: 5%;
+  font-size: 12px;
+  font-family: Arial;
+  color: #000000;
+}
+.containerLoginFormBtn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.containerCancelarmBtn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cadastrarFormBtn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border-color: #ffffff;
+  background: #ff9839;
+  border: none;
+  font-family: Arial;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.cadastrarFormBtn:active {
+  transform: scale(0.98);
+
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+.cancelarBtn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border-color: #ffffff;
+  background: #ff3939;
+  border: none;
+  font-family: Arial;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.cancelarBtn:active {
+  transform: scale(0.98);
+
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+.cancelarFormBtn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border-color: #ffffff;
+  background: #f51b1b;
+  border: none;
+  font-family: Arial;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.esqueceuSenha {
+  font-family: Arial;
+  margin-top: 70px;
+  font-size: 14px;
+  color: #ff9839;
+  text-decoration: none;
+}
