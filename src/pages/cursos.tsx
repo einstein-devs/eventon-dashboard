@@ -1,20 +1,20 @@
 import { NavBar } from "@/components/navbar";
-import { Local } from "@/entities/local";
+import { Curso } from "@/entities/curso";
 import { api } from "@/services/api";
-import style from "@/styles/locais.module.css";
+import style from "@/styles/cursos.module.css";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 
-export default function Locais() {
-  const [locais, setLocais] = useState<Local[]>([]);
+export default function CursosPage() {
+  const [cursos, setCursos] = useState<Curso[]>([]);
 
   useEffect(() => {
-    getLocais();
+    getCursos();
   }, []);
 
-  async function getLocais(search?: string) {
+  async function getCursos(search?: string) {
     try {
       let params: any = {};
 
@@ -22,20 +22,20 @@ export default function Locais() {
         params["search"] = search;
       }
 
-      const response = await api.get("/locais", {
+      const response = await api.get("/cursos", {
         params: params,
       });
       const responseData = response.data;
 
-      setLocais(responseData["data"]);
+      setCursos(responseData["data"]);
     } catch {}
   }
 
-  async function onChangeLocal(event: any) {
+  async function onChangeCurso(event: any) {
     let search = event.target.value;
 
     if (search || search == "") {
-      await getLocais(search);
+      await getCursos(search);
     }
   }
 
@@ -47,28 +47,31 @@ export default function Locais() {
         <section className={style.SearchWrapper}>
           <input
             type="text"
-            placeholder="Pesquise pelo nome do local"
+            placeholder="Pesquise pelo nome do curso"
             className={style.Input}
-            onChange={(event) => onChangeLocal(event)}
+            onChange={(event) => onChangeCurso(event)}
           />
-          <Link href="/criarLocal" className={style.CriarLocais}>
-            Criar local
+          <Link href="/criarCurso" className={style.CriarCursos}>
+            Criar curso
           </Link>
         </section>
 
-        <div className={style.DivLocais}>
-          {locais.length == 0 && <p>Nenhum local encontrado!</p>}
+        <div className={style.DivCursos}>
+          {cursos.length == 0 && <p>Nenhum curso encontrado!</p>}
 
-          {locais.length > 0 && (
+          {cursos.length > 0 && (
             <table id="table">
               <tr>
                 <th>#</th>
-                <th>Titulo</th>
-                <th>Referência</th>
+                <th>Nome</th>
+                <th>Ementa</th>
+                <th>Centro</th>
+                <th>Quantidade Alunos</th>
               </tr>
-              {locais.map((local) => {
+              {cursos.map((curso) => {
                 return (
-                  <tr key={local.id}>
+                  <tr key={curso.id}>
+                    <td>{curso.id}</td>
                     <td
                       style={{
                         width: "200px",
@@ -79,11 +82,12 @@ export default function Locais() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {local.id}
+                        {curso.nome}
                       </p>
                     </td>
-                    <td>{local.titulo}</td>
-                    <td>{local.descricao ?? "-"}</td>
+                    <td>{curso.ementa ?? "-"}</td>
+                    <td>{curso.centro.nome}</td>
+                    <td>{curso.quantidadeAlunos}</td>
                   </tr>
                 );
               })}

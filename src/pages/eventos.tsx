@@ -26,7 +26,7 @@ export default function Eventos() {
       const response = await api.get("/eventos", {
         params: params,
       });
-      const responseData = await response.data;
+      const responseData = response.data;
 
       setEventos(responseData["data"]);
     } catch {}
@@ -48,7 +48,7 @@ export default function Eventos() {
         <section className={style.SearchWrapper}>
           <input
             type="text"
-            placeholder=" Pesquise pelo nome do evento"
+            placeholder="Pesquise pelo nome do evento"
             className={style.Input}
             onChange={(event) => onChangeEvento(event)}
           />

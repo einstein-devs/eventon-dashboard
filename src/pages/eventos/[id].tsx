@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<InfoEventos> = async (
     const eventoId = context.query.id;
 
     const response = await api.get(`/eventos/${eventoId}`);
-    const data = await response.data["data"];
+    const data = response.data["data"];
 
     return {
       props: {

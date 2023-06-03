@@ -19,7 +19,13 @@ export function NavBar() {
 
       <section className={styles.navbarContent}>
         <div className={styles.navbarItens}>
-          <Link href="/eventos" className={styles.linksMenu}>
+          <Link
+            href="/alunos"
+            className={`${styles.linksMenu} ${
+              ["/alunos", "/criarAluno", "/alunos/[id]"].includes(route) &&
+              styles.linksMenuActive
+            }`}
+          >
             Alunos
           </Link>
           <Link href="/eventos" className={styles.linksMenu}>
@@ -42,6 +48,15 @@ export function NavBar() {
             }`}
           >
             Locais
+          </Link>
+          <Link
+            href="/cursos"
+            className={`${styles.linksMenu} ${
+              ["/cursos", "/criarCurso", "/cursos/[id]"].includes(route) &&
+              styles.linksMenuActive
+            }`}
+          >
+            Cursos
           </Link>
         </div>
 

@@ -1,0 +1,203 @@
+.App {
+  margin: 0px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  /* background-color: aqua; */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.Menu {
+  /* background-color: rgb(86, 112, 112); */
+  /* display: flex; */
+  height: 100%;
+  width: 208px;
+  font-size: 16px;
+  border-right: 1px solid rgb(218, 218, 218);
+  box-shadow: -5px 0px 15px;
+}
+
+.Div_Logo {
+  /* background-color: aqua; */
+  height: 100px;
+  width: 208px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Logo {
+  height: 57px;
+  width: 57px;
+  border-radius: 5px;
+}
+
+.Div_Listagem {
+  /* background-color: blue; */
+  display: flex;
+  height: 200px;
+  width: 208px;
+  align-items: center;
+  justify-content: center;
+  /* list-style: none; */
+  line-height: 40px;
+}
+
+.Listagem {
+  list-style: none;
+}
+
+.Links_Menu {
+  text-decoration: none;
+  color: #949494;
+}
+
+.Links_Menu:hover,
+.Button_Sair:hover {
+  color: #ffc839;
+}
+
+.Div_Button_Sair {
+  /* background-color: blueviolet; */
+  height: 100px;
+  height: 436px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.Button_Sair {
+  text-decoration: none;
+  margin: 10px;
+  color: #949494;
+}
+
+.Div_dashboard {
+  width: 100%;
+  padding: 3rem;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  gap: 32px;
+
+  overflow-y: auto;
+}
+
+.Form_Pesquisa {
+  margin-top: 50px;
+  display: flex;
+  height: 50px;
+  max-width: 700px;
+  border-radius: 8px;
+  text-align: start;
+  background-color: #fbfbfb;
+  border: 0.5px solid #e6e6e6;
+}
+
+.Input {
+  border: none;
+  background-color: #fbfbfb;
+  width: 100%;
+  height: 3rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.DivIcon {
+  width: 100px;
+  height: 50px;
+  /* background-color: #ffc839; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FiPlusCircle {
+  color: black;
+  height: 25px;
+  width: 25px;
+}
+
+.a {
+  box-shadow: 2px 2px 6px -1px #b4b3b3;
+  text-decoration: none;
+  display: flex;
+  border-radius: 20px;
+}
+
+.p {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 300px;
+  text-overflow: ellipsis;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.DivCursos {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  padding-bottom: 24px;
+}
+
+.CursoItem {
+  width: 100%;
+  height: 200px;
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+}
+
+.CriarCursos {
+  background-color: #ffc839;
+  font-weight: bold;
+
+  text-decoration: none;
+  color: white;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SearchWrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+}
+
+.PaginacaoWrapper {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PaginacaoButton {
+  border: 0;
+  background: none;
+  font-weight: bold;
+  padding: 2rem;
+  cursor: pointer;
+}

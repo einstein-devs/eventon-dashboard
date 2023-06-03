@@ -101,7 +101,7 @@ export default function CriarEventos() {
   async function getLocais() {
     try {
       const response = await api.get("/locais");
-      const responseData = await response.data;
+      const responseData = response.data;
 
       setLocais(responseData["data"]);
     } catch {}

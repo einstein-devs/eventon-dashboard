@@ -1,20 +1,20 @@
 import { NavBar } from "@/components/navbar";
-import { Local } from "@/entities/local";
+import { Aluno } from "@/entities/aluno";
 import { api } from "@/services/api";
-import style from "@/styles/locais.module.css";
+import style from "@/styles/alunos.module.css";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 
-export default function Locais() {
-  const [locais, setLocais] = useState<Local[]>([]);
+export default function AlunosPage() {
+  const [alunos, setAlunos] = useState<Aluno[]>([]);
 
   useEffect(() => {
-    getLocais();
+    getAlunos();
   }, []);
 
-  async function getLocais(search?: string) {
+  async function getAlunos(search?: string) {
     try {
       let params: any = {};
 
@@ -22,20 +22,20 @@ export default function Locais() {
         params["search"] = search;
       }
 
-      const response = await api.get("/locais", {
+      const response = await api.get("/usuarios/alunos", {
         params: params,
       });
       const responseData = response.data;
 
-      setLocais(responseData["data"]);
+      setAlunos(responseData["data"]);
     } catch {}
   }
 
-  async function onChangeLocal(event: any) {
+  async function onChangeCurso(event: any) {
     let search = event.target.value;
 
     if (search || search == "") {
-      await getLocais(search);
+      await getAlunos(search);
     }
   }
 
@@ -47,28 +47,33 @@ export default function Locais() {
         <section className={style.SearchWrapper}>
           <input
             type="text"
-            placeholder="Pesquise pelo nome do local"
+            placeholder="Pesquise pelo nome ou e-mail do aluno"
             className={style.Input}
-            onChange={(event) => onChangeLocal(event)}
+            onChange={(event) => onChangeCurso(event)}
           />
-          <Link href="/criarLocal" className={style.CriarLocais}>
-            Criar local
+          <Link href="/criarAluno" className={style.CriarAlunos}>
+            Criar aluno
           </Link>
         </section>
 
-        <div className={style.DivLocais}>
-          {locais.length == 0 && <p>Nenhum local encontrado!</p>}
+        <div className={style.DivAlunos}>
+          {alunos.length == 0 && <p>Nenhum aluno encontrado!</p>}
 
-          {locais.length > 0 && (
+          {alunos.length > 0 && (
             <table id="table">
               <tr>
                 <th>#</th>
-                <th>Titulo</th>
-                <th>Referência</th>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Curso</th>
+                <th>Cargo</th>
               </tr>
-              {locais.map((local) => {
+              {alunos.map((aluno) => {
                 return (
-                  <tr key={local.id}>
+                  <tr key={aluno.id}>
+                    <td>{aluno.id}</td>
+                    <td>{aluno.codigo}</td>
                     <td
                       style={{
                         width: "200px",
@@ -79,11 +84,12 @@ export default function Locais() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {local.id}
+                        {aluno.nome}
                       </p>
                     </td>
-                    <td>{local.titulo}</td>
-                    <td>{local.descricao ?? "-"}</td>
+                    <td>{aluno.email}</td>
+                    <td>{aluno?.curso?.nome ?? "-"}</td>
+                    <td>{aluno.cargo.posicao}</td>
                   </tr>
                 );
               })}

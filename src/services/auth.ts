@@ -45,7 +45,7 @@ export async function signInRequest(
         token: responseData.token,
       } as LoginResponseData;
     } else {
-      let responseData = await response.data;
+      let responseData = response.data;
 
       throw new LoginErrorData(responseData.message);
     }
