@@ -65,7 +65,11 @@ export default function Eventos() {
           )}
           {eventos.map((evento) => {
             return (
-              <Link key={evento.id} className={style.a} href="/infoEventos">
+              <Link
+                key={evento.id}
+                className={style.a}
+                href={`/eventos/${evento.id}`}
+              >
                 <div
                   style={
                     evento.urlImagem

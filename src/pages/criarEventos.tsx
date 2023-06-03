@@ -3,24 +3,45 @@ import { Local } from "@/entities/local";
 import { api } from "@/services/api";
 import style from "@/styles/criarEventos.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CaretLeft } from "@phosphor-icons/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsImage, BsPlusCircle } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { z } from "zod";
+
+const MAX_FILE_SIZE = 500000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 
 const schema = z.object({
   localId: z.string().nonempty("O Local é obrigatório"),
   titulo: z.string().nonempty("O título é obrigatório"),
-  dataHoraInicio: z.string().refine(
-    (value) => {
-      const date = new Date(value);
-      return !isNaN(date.getTime());
-    },
-    {
-      message: "A data é obrigatória",
-    }
-  ),
+  dataHoraInicio: z
+    .string()
+    .refine(
+      (value) => {
+        const date = new Date(value);
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "A data é obrigatória",
+      }
+    )
+    .refine(
+      (value) => {
+        const date = new Date(value);
+        return date.valueOf() > new Date().valueOf();
+      },
+      {
+        message: "A data hora inicio deve ser maior que a data atual!",
+      }
+    ),
   dataHoraTermino: z.string().refine(
     (value) => {
       const date = new Date(value);
@@ -31,16 +52,29 @@ const schema = z.object({
     }
   ),
   descricao: z.string().optional(),
+  image: z
+    .any()
+    .refine(
+      (files) => !files?.[0]?.size || files?.[0]?.size <= MAX_FILE_SIZE,
+      `O tamanho máximo do arquivo é de 5MB.`
+    )
+    .refine(
+      (files) =>
+        !files?.[0]?.type || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      "Formato de imagem inválido."
+    )
+    .optional(),
 });
 
-type LocalFormData = z.infer<typeof schema>;
+type EventoFormData = z.infer<typeof schema>;
 
 export default function CriarEventos() {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<LocalFormData>({
+    watch,
+  } = useForm<EventoFormData>({
     resolver: zodResolver(schema),
   });
 
@@ -49,6 +83,8 @@ export default function CriarEventos() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const router = useRouter();
+
+  const selectedImage = watch("image")?.[0];
 
   useEffect(() => {
     loadScreen();
@@ -71,7 +107,7 @@ export default function CriarEventos() {
     } catch {}
   }
 
-  async function onSubmit(formData: any) {
+  async function onSubmit(formData: EventoFormData) {
     try {
       setErrorMessage(null);
       setIsLoading(true);
@@ -79,27 +115,36 @@ export default function CriarEventos() {
       let isValid = validateDates(formData);
 
       if (isValid) {
-        let dataToSend: any = {
-          localId: formData.localId,
-          titulo: formData.titulo,
-          dataHoraInicio: formData.dataHoraInicio,
-          dataHoraTermino: formData.dataHoraTermino,
-        };
+        const dataToSend = new FormData();
 
-        if (formData["descricao"]) {
-          dataToSend["descricao"] = formData.descricao;
+        dataToSend.append("localId", formData.localId);
+        dataToSend.append("titulo", formData.titulo);
+        dataToSend.append("dataHoraInicio", formData.dataHoraInicio);
+        dataToSend.append("dataHoraTermino", formData.dataHoraTermino);
+
+        if (formData.descricao) {
+          dataToSend.append("descricao", formData.descricao);
         }
-        console.log(formData);
+
+        if (formData.image) {
+          console.log(formData.image?.[0]);
+          dataToSend.append("image", formData.image?.[0]);
+        }
+
         await api.post("/eventos", dataToSend);
         router.replace("/eventos");
       } else {
         setErrorMessage("A data de termino deve ser menor que a de inicio!");
       }
     } catch (error: any) {
-      toast.error(error?.message ?? "Ocorreu um erro ao criar o evento!", {
-        closeButton: true,
-        closeOnClick: true,
-      });
+      console.log(error);
+      toast.error(
+        error?.response?.data?.message ?? "Ocorreu um erro ao criar o evento!",
+        {
+          closeButton: true,
+          closeOnClick: true,
+        }
+      );
     } finally {
       setIsLoading(false);
     }
@@ -110,6 +155,10 @@ export default function CriarEventos() {
     const dataHoraTermino = new Date(formData.dataHoraTermino);
 
     return dataHoraInicio.valueOf() < dataHoraTermino.valueOf();
+  }
+
+  function voltarPaginaAnterior() {
+    router.back();
   }
 
   if (isLoading) {
@@ -125,13 +174,71 @@ export default function CriarEventos() {
       <NavBar />
 
       <div className={style.Div_dashboard}>
-        <h1>Evento 1</h1>
+        {" "}
+        <section className={style.header}>
+          <button className={style.buttonVoltar} onClick={voltarPaginaAnterior}>
+            <CaretLeft size={24} weight={"bold"} />
+          </button>
 
-        <div className={style.DivEventos}>
-          <div className={style.EventoItem}></div>
-        </div>
-
+          <h1>Cadastrar evento</h1>
+        </section>
         <form onSubmit={handleSubmit(onSubmit)} className={style.Form_Pesquisa}>
+          <div
+            style={
+              selectedImage && {
+                position: "relative",
+                backgroundImage: `url('${URL.createObjectURL(selectedImage)}')`,
+              }
+            }
+            className={style.wrapperEnvioImagem}
+          >
+            {!selectedImage && <BsImage color="#ff9839" size={32} />}
+            <BsPlusCircle
+              className={style.plusIcon}
+              color="#ff9839"
+              size={42}
+            />
+
+            <input
+              className={style.inputEnvioImagem}
+              type="file"
+              id="image"
+              {...register("image")}
+            />
+          </div>
+          {errors.image && (
+            <span
+              className={style.errorMessage}
+            >{`${errors.image.message}`}</span>
+          )}
+
+          <div>
+            <input
+              type="text"
+              className={style.Input}
+              placeholder="Título"
+              {...register("titulo")}
+            />
+            {errors.titulo && (
+              <span className={style.errorMessage}>
+                {errors.titulo.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <textarea
+              className={style.TextArea}
+              placeholder="Descrição"
+              {...register("descricao")}
+            />
+            {errors.descricao && (
+              <span className={style.errorMessage}>
+                {errors.descricao.message}
+              </span>
+            )}
+          </div>
+
           <div>
             <select
               className={style.SelectInput}
@@ -191,36 +298,6 @@ export default function CriarEventos() {
               )}
             </div>
           </section>
-          {errorMessage && (
-            <span className={style.errorMessage}>{errorMessage}</span>
-          )}
-
-          <div>
-            <input
-              type="text"
-              className={style.Input}
-              placeholder="Título"
-              {...register("titulo")}
-            />
-            {errors.titulo && (
-              <span className={style.errorMessage}>
-                {errors.titulo.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <textarea
-              className={style.TextArea}
-              placeholder="Descrição"
-              {...register("descricao")}
-            />
-            {errors.descricao && (
-              <span className={style.errorMessage}>
-                {errors.descricao.message}
-              </span>
-            )}
-          </div>
 
           <button className={style.loginFormBtn}>Cadastrar</button>
         </form>

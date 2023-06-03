@@ -28,14 +28,24 @@ export function NavBar() {
           <Link
             href="/eventos"
             className={`${styles.linksMenu} ${
-              route == "/eventos" && styles.linksMenuActive
+              ["/eventos", "/criarEventos", "/eventos/[id]"].includes(route) &&
+              styles.linksMenuActive
             }`}
           >
             Eventos
           </Link>
+          <Link
+            href="/locais"
+            className={`${styles.linksMenu} ${
+              ["/locais", "/criarLocal", "/locais/[id]"].includes(route) &&
+              styles.linksMenuActive
+            }`}
+          >
+            Locais
+          </Link>
         </div>
 
-        <button onClick={signOut} className={styles.buttonSair}>
+        <button onClick={() => signOut()} className={styles.buttonSair}>
           Sair
         </button>
       </section>

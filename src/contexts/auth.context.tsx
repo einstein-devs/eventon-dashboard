@@ -57,7 +57,7 @@ export function AuthProvider({ children }: any) {
     api.defaults.headers["Authorization"] = `Bearer ${token}`;
     setUser(user);
 
-    Router.push("/");
+    await Router.push("/");
   }
 
   async function signOut() {
