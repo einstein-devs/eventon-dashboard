@@ -137,7 +137,6 @@ export default function CriarEventos() {
         setErrorMessage("A data de termino deve ser menor que a de inicio!");
       }
     } catch (error: any) {
-      console.log(error);
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o evento!",
         {

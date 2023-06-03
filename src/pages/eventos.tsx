@@ -8,11 +8,15 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 
-export default function Eventos() {
+type EventosProps = {
+  eventos: Evento[];
+};
+
+export default function Eventos(props: EventosProps) {
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
-    getEventos();
+    setEventos(props.eventos);
   }, []);
 
   async function getEventos(search?: string) {
@@ -93,8 +97,10 @@ export default function Eventos() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { "@eventon-dashboard.token": token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps<EventosProps> = async (
+  context
+) => {
+  const { "@eventon-dashboard.token": token } = parseCookies(context);
 
   if (!token) {
     return {
@@ -102,11 +108,24 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/",
         permanent: false,
       },
-      props: {},
     };
   }
 
-  return {
-    props: {},
-  };
+  try {
+    const response = await api.get(`/eventos`);
+    const data = response.data["data"];
+
+    return {
+      props: {
+        eventos: data,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/eventos",
+        permanent: false,
+      },
+    };
+  }
 };
