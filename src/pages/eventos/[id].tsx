@@ -26,6 +26,10 @@ export default function InfoEventos(props: InfoEventos) {
     router.back();
   }
 
+  function isFinalizado(): boolean {
+    return new Date(evento.dataHoraTermino).valueOf() <= dataAtual.valueOf();
+  }
+
   function isIniciado(): boolean {
     return (
       new Date(evento.dataHoraTermino).valueOf() > dataAtual.valueOf() &&
@@ -119,7 +123,7 @@ export default function InfoEventos(props: InfoEventos) {
           </button>
         )}
 
-        {!evento.codigo && !isIniciado() && (
+        {!evento.codigo && !isIniciado() && isFinalizado() && (
           <p
             style={{
               color: "red",

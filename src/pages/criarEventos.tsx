@@ -19,12 +19,31 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-const schema = z.object({
-  localId: z.string().nonempty("O Local é obrigatório"),
-  titulo: z.string().nonempty("O título é obrigatório"),
-  dataHoraInicio: z
-    .string()
-    .refine(
+const schema = z
+  .object({
+    localId: z.string().nonempty("O Local é obrigatório"),
+    titulo: z.string().nonempty("O título é obrigatório"),
+    dataHoraInicio: z
+      .string()
+      .refine(
+        (value) => {
+          const date = new Date(value);
+          return !isNaN(date.getTime());
+        },
+        {
+          message: "A data é obrigatória",
+        }
+      )
+      .refine(
+        (value) => {
+          const date = new Date(value);
+          return date.valueOf() > new Date().valueOf();
+        },
+        {
+          message: "A data hora inicio deve ser maior que a data atual!",
+        }
+      ),
+    dataHoraTermino: z.string().refine(
       (value) => {
         const date = new Date(value);
         return !isNaN(date.getTime());
@@ -32,39 +51,31 @@ const schema = z.object({
       {
         message: "A data é obrigatória",
       }
-    )
-    .refine(
-      (value) => {
-        const date = new Date(value);
-        return date.valueOf() > new Date().valueOf();
-      },
-      {
-        message: "A data hora inicio deve ser maior que a data atual!",
-      }
     ),
-  dataHoraTermino: z.string().refine(
-    (value) => {
-      const date = new Date(value);
-      return !isNaN(date.getTime());
-    },
-    {
-      message: "A data é obrigatória",
+    descricao: z.string().optional(),
+    image: z
+      .any()
+      .refine(
+        (files) => !files?.[0]?.size || files?.[0]?.size <= MAX_FILE_SIZE,
+        `O tamanho máximo do arquivo é de 5MB.`
+      )
+      .refine(
+        (files) =>
+          !files?.[0]?.type || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+        "Formato de imagem inválido."
+      )
+      .optional(),
+  })
+  .superRefine(({ dataHoraInicio, dataHoraTermino }, ctx) => {
+    if (dataHoraInicio.valueOf() > dataHoraTermino.valueOf()) {
+      ctx.addIssue({
+        path: ["dataHoraTermino"],
+        code: "custom",
+        message:
+          "A data hora término tem que ser maior que a data hora início!",
+      });
     }
-  ),
-  descricao: z.string().optional(),
-  image: z
-    .any()
-    .refine(
-      (files) => !files?.[0]?.size || files?.[0]?.size <= MAX_FILE_SIZE,
-      `O tamanho máximo do arquivo é de 5MB.`
-    )
-    .refine(
-      (files) =>
-        !files?.[0]?.type || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Formato de imagem inválido."
-    )
-    .optional(),
-});
+  });
 
 type EventoFormData = z.infer<typeof schema>;
 
@@ -112,30 +123,23 @@ export default function CriarEventos() {
       setErrorMessage(null);
       setIsLoading(true);
 
-      let isValid = validateDates(formData);
+      const dataToSend = new FormData();
 
-      if (isValid) {
-        const dataToSend = new FormData();
+      dataToSend.append("localId", formData.localId);
+      dataToSend.append("titulo", formData.titulo);
+      dataToSend.append("dataHoraInicio", formData.dataHoraInicio);
+      dataToSend.append("dataHoraTermino", formData.dataHoraTermino);
 
-        dataToSend.append("localId", formData.localId);
-        dataToSend.append("titulo", formData.titulo);
-        dataToSend.append("dataHoraInicio", formData.dataHoraInicio);
-        dataToSend.append("dataHoraTermino", formData.dataHoraTermino);
-
-        if (formData.descricao) {
-          dataToSend.append("descricao", formData.descricao);
-        }
-
-        if (formData.image) {
-          console.log(formData.image?.[0]);
-          dataToSend.append("image", formData.image?.[0]);
-        }
-
-        await api.post("/eventos", dataToSend);
-        router.replace("/eventos");
-      } else {
-        setErrorMessage("A data de termino deve ser menor que a de inicio!");
+      if (formData.descricao) {
+        dataToSend.append("descricao", formData.descricao);
       }
+
+      if (formData.image) {
+        dataToSend.append("image", formData.image?.[0]);
+      }
+
+      await api.post("/eventos", dataToSend);
+      router.replace("/eventos");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o evento!",
@@ -147,13 +151,6 @@ export default function CriarEventos() {
     } finally {
       setIsLoading(false);
     }
-  }
-
-  function validateDates(formData: any) {
-    const dataHoraInicio = new Date(formData.dataHoraInicio);
-    const dataHoraTermino = new Date(formData.dataHoraTermino);
-
-    return dataHoraInicio.valueOf() < dataHoraTermino.valueOf();
   }
 
   function voltarPaginaAnterior() {

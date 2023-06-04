@@ -142,7 +142,8 @@ export default function CriarCoordenador() {
               color: "red",
             }}
           >
-            Senha de aluno gerada automaticamente com o mesmo numero de código!
+            Senha do coordenador gerada automaticamente com o mesmo numero de
+            código!
           </p>
 
           <button disabled={isLoading} className={style.loginFormBtn}>
