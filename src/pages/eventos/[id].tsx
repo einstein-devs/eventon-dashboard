@@ -7,16 +7,57 @@ import { formatarData } from "@/utils/formater";
 import { CaretLeft } from "@phosphor-icons/react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 type InfoEventos = {
   evento: Evento;
 };
 
-export default function InfoEventos({ evento }: InfoEventos) {
+export default function InfoEventos(props: InfoEventos) {
+  const [evento, setEvento] = useState<Evento>(props.evento);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const dataAtual = new Date();
   const router = useRouter();
 
   function voltarPaginaAnterior() {
     router.back();
+  }
+
+  function isIniciado(): boolean {
+    return (
+      new Date(evento.dataHoraTermino).valueOf() > dataAtual.valueOf() &&
+      new Date(evento.dataHoraInicio).valueOf() <= dataAtual.valueOf()
+    );
+  }
+
+  async function gerarCodigo() {
+    try {
+      setIsLoading(true);
+
+      const response = await api.post(`/eventos/gerar-codigo/${evento.id}`);
+      setEvento({
+        ...evento,
+        codigo: response.data["data"].codigo,
+      });
+      toast.success("Código de evento gerado com sucesso!", {
+        closeButton: true,
+        closeOnClick: true,
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ??
+          "Ocorreu um erro ao gerar código de evento!",
+        {
+          closeButton: true,
+          closeOnClick: true,
+        }
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -57,11 +98,36 @@ export default function InfoEventos({ evento }: InfoEventos) {
           {evento.descricao && <p>Descrição: {evento.descricao}</p>}
           <br />
 
-          {evento.codigo && <p>Código do curso: {evento.codigo}</p>}
+          {evento.codigo && (
+            <p
+              style={{
+                fontSize: 24,
+              }}
+            >
+              Código: {evento.codigo}
+            </p>
+          )}
         </div>
 
-        {!evento.codigo && (
-          <button className={style.loginFormBtn}>Gerar código</button>
+        {!evento.codigo && isIniciado() && (
+          <button
+            disabled={isLoading}
+            onClick={gerarCodigo}
+            className={style.loginFormBtn}
+          >
+            {isLoading ? "Carregando..." : "Gerar código"}
+          </button>
+        )}
+
+        {!evento.codigo && !isIniciado() && (
+          <p
+            style={{
+              color: "red",
+              textDecoration: "underline",
+            }}
+          >
+            Aguarde o início do evento para gerar o código!
+          </p>
         )}
       </div>
     </div>
