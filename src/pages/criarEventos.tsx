@@ -127,14 +127,8 @@ export default function CriarEventos() {
 
       dataToSend.append("localId", formData.localId);
       dataToSend.append("titulo", formData.titulo);
-      dataToSend.append(
-        "dataHoraInicio",
-        new Date(formData.dataHoraInicio).toUTCString()
-      );
-      dataToSend.append(
-        "dataHoraTermino",
-        new Date(formData.dataHoraTermino).toUTCString()
-      );
+      dataToSend.append("dataHoraInicio", formData.dataHoraInicio);
+      dataToSend.append("dataHoraTermino", formData.dataHoraTermino);
 
       if (formData.descricao) {
         dataToSend.append("descricao", formData.descricao);
