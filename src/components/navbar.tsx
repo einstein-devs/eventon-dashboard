@@ -1,13 +1,17 @@
 import { AuthContext } from "@/contexts/auth.context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styles from "../styles/components/navbar.module.css";
 
 export function NavBar() {
   const { route } = useRouter();
 
-  const { signOut } = useContext(AuthContext);
+  const { user, signOut } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <div className={styles.navbar}>
@@ -19,18 +23,22 @@ export function NavBar() {
 
       <section className={styles.navbarContent}>
         <div className={styles.navbarItens}>
-          <Link
-            href="/alunos"
-            className={`${styles.linksMenu} ${
-              ["/alunos", "/criarAluno", "/alunos/[id]"].includes(route) &&
-              styles.linksMenuActive
-            }`}
-          >
-            Alunos
-          </Link>
-          <Link href="/eventos" className={styles.linksMenu}>
-            Coordenadores
-          </Link>
+          {user?.cargo.posicao == "DIRETOR" && (
+            <Link
+              href="/alunos"
+              className={`${styles.linksMenu} ${
+                ["/alunos", "/criarAluno", "/alunos/[id]"].includes(route) &&
+                styles.linksMenuActive
+              }`}
+            >
+              Alunos
+            </Link>
+          )}
+          {user?.cargo.posicao == "DIRETOR" && (
+            <Link href="/eventos" className={styles.linksMenu}>
+              Coordenadores
+            </Link>
+          )}
           <Link
             href="/eventos"
             className={`${styles.linksMenu} ${
@@ -40,15 +48,17 @@ export function NavBar() {
           >
             Eventos
           </Link>
-          <Link
-            href="/locais"
-            className={`${styles.linksMenu} ${
-              ["/locais", "/criarLocal", "/locais/[id]"].includes(route) &&
-              styles.linksMenuActive
-            }`}
-          >
-            Locais
-          </Link>
+          {user?.cargo.posicao == "DIRETOR" && (
+            <Link
+              href="/locais"
+              className={`${styles.linksMenu} ${
+                ["/locais", "/criarLocal", "/locais/[id]"].includes(route) &&
+                styles.linksMenuActive
+              }`}
+            >
+              Locais
+            </Link>
+          )}
           <Link
             href="/cursos"
             className={`${styles.linksMenu} ${

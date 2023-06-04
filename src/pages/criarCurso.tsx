@@ -1,9 +1,12 @@
 import { NavBar } from "@/components/navbar";
+import { Centro } from "@/entities/centro";
 import { api } from "@/services/api";
 import style from "@/styles/criarLocal.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CaretLeft } from "@phosphor-icons/react";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -12,11 +15,16 @@ import { z } from "zod";
 const schema = z.object({
   nome: z.string().nonempty("O nome é obrigatório"),
   ementa: z.string().optional(),
+  centroId: z.string().nonempty("O centro é obrigatório"),
 });
 
 type AlunoFormData = z.infer<typeof schema>;
 
-export default function CriarCurso() {
+type CriarCursoProps = {
+  centros: Centro[];
+};
+
+export default function CriarCurso({ centros }: CriarCursoProps) {
   const {
     handleSubmit,
     register,
@@ -99,26 +107,25 @@ export default function CriarCurso() {
             )}
           </div>
 
-          {/* 
           <div>
             <select
               className={style.SelectInput}
-              placeholder="Local"
-              {...register("cursoId")}
+              placeholder="Centro"
+              {...register("centroId")}
             >
               <option value={""} disabled selected>
-                Selecione um curso
+                Selecione um centro
               </option>
-              {cursos.map((curso) => {
-                return <option value={curso.id}>{curso.nome}</option>;
+              {centros.map((centro) => {
+                return <option value={centro.id}>{centro.nome}</option>;
               })}
             </select>
-            {errors.cursoId && (
+            {errors.centroId && (
               <span className={style.errorMessage}>
-                {errors.cursoId.message}
+                {errors.centroId.message}
               </span>
             )}
-          </div> */}
+          </div>
 
           <button className={style.loginFormBtn}>Cadastrar</button>
         </form>
@@ -126,3 +133,36 @@ export default function CriarCurso() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<CriarCursoProps> = async (
+  context
+) => {
+  const { "@eventon-dashboard.token": token } = parseCookies(context);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const response = await api.get(`/centros`);
+    const data = response.data["data"];
+
+    return {
+      props: {
+        centros: data,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/cursos",
+        permanent: false,
+      },
+    };
+  }
+};
