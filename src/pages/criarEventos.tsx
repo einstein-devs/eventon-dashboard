@@ -127,8 +127,18 @@ export default function CriarEventos() {
 
       dataToSend.append("localId", formData.localId);
       dataToSend.append("titulo", formData.titulo);
-      dataToSend.append("dataHoraInicio", formData.dataHoraInicio);
-      dataToSend.append("dataHoraTermino", formData.dataHoraTermino);
+      dataToSend.append(
+        "dataHoraInicio",
+        new Date(formData.dataHoraInicio).toLocaleString("en-US", {
+          timeZone: "America/Sao_Paulo",
+        })
+      );
+      dataToSend.append(
+        "dataHoraTermino",
+        new Date(formData.dataHoraTermino).toLocaleString("en-US", {
+          timeZone: "America/Sao_Paulo",
+        })
+      );
 
       if (formData.descricao) {
         dataToSend.append("descricao", formData.descricao);
