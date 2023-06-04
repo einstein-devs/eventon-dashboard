@@ -62,7 +62,7 @@ export default function CriarAluno() {
       console.log(formData);
 
       await api.post("/usuarios/create", formData);
-      router.replace("/alunos");
+      await router.replace("/alunos");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o aluno!",

@@ -34,7 +34,7 @@ export default function CriarCentro() {
       setIsLoading(true);
 
       await api.post("/centros", formData);
-      router.replace("/centros");
+      await router.replace("/centros");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o centro!",

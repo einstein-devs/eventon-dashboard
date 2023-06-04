@@ -52,7 +52,7 @@ export default function CriarCurso({ centros }: CriarCursoProps) {
       }
 
       await api.post("/cursos", dataToSend);
-      router.replace("/cursos");
+      await router.replace("/cursos");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o curso!",

@@ -57,7 +57,7 @@ export default function CriarCoordenador() {
       console.log(formData);
 
       await api.post("/usuarios/create/coordenador", formData);
-      router.replace("/coordenadores");
+      await router.replace("/coordenadores");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ??

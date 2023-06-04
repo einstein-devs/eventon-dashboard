@@ -43,7 +43,7 @@ export default function CriarLocal() {
       }
 
       await api.post("/locais", dataToSend);
-      router.replace("/locais");
+      await router.replace("/locais");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o local!",

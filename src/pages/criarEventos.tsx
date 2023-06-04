@@ -129,15 +129,11 @@ export default function CriarEventos() {
       dataToSend.append("titulo", formData.titulo);
       dataToSend.append(
         "dataHoraInicio",
-        new Date(formData.dataHoraInicio).toLocaleString("en-US", {
-          timeZone: "America/Sao_Paulo",
-        })
+        new Date(formData.dataHoraInicio).toUTCString()
       );
       dataToSend.append(
         "dataHoraTermino",
-        new Date(formData.dataHoraTermino).toLocaleString("en-US", {
-          timeZone: "America/Sao_Paulo",
-        })
+        new Date(formData.dataHoraTermino).toUTCString()
       );
 
       if (formData.descricao) {
@@ -149,7 +145,7 @@ export default function CriarEventos() {
       }
 
       await api.post("/eventos", dataToSend);
-      router.replace("/eventos");
+      await router.replace("/eventos");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o evento!",
