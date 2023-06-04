@@ -135,7 +135,11 @@ export default function CriarAluno() {
                 Selecione um curso
               </option>
               {cursos.map((curso) => {
-                return <option value={curso.id}>{curso.nome}</option>;
+                return (
+                  <option key={curso.id} value={curso.id}>
+                    {curso.nome}
+                  </option>
+                );
               })}
             </select>
             {errors.cursoId && (
