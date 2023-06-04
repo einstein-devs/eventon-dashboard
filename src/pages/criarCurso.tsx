@@ -126,7 +126,11 @@ export default function CriarCurso({ centros }: CriarCursoProps) {
                 Selecione um centro
               </option>
               {centros.map((centro) => {
-                return <option value={centro.id}>{centro.nome}</option>;
+                return (
+                  <option key={centro.id} value={centro.id}>
+                    {centro.nome}
+                  </option>
+                );
               })}
             </select>
             {errors.centroId && (

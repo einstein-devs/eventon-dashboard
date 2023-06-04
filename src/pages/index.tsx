@@ -16,7 +16,7 @@ const schema = z.object({
 
 type LoginFormData = z.infer<typeof schema>;
 
-export default function telaLogin() {
+export default function TelaLogin() {
   const {
     handleSubmit,
     register,

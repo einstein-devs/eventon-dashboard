@@ -248,7 +248,11 @@ export default function CriarEventos() {
                 Selecione um local
               </option>
               {locais.map((local) => {
-                return <option value={local.id}>{local.titulo}</option>;
+                return (
+                  <option key={local.id} value={local.id}>
+                    {local.titulo}
+                  </option>
+                );
               })}
             </select>
             {errors.localId && (
