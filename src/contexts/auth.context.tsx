@@ -29,11 +29,13 @@ export function AuthProvider({ children }: any) {
     try {
       const { "@eventon-dashboard.token": token } = parseCookies();
 
+      console.log("TOKEN " + token);
       if (token) {
         setIsLoadingUser(true);
 
         const response = await getUserInformation();
 
+        console.log("TOKEN " + response);
         if (response) {
           setUser(response);
         } else {

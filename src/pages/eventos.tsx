@@ -130,8 +130,7 @@ export const getServerSideProps: GetServerSideProps<EventosProps> = async (
         eventos: data,
       },
     };
-  } catch (e) {
-    console.log(e);
+  } catch {
     return {
       props: {
         eventos: [],
