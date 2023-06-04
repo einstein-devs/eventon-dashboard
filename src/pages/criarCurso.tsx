@@ -42,8 +42,17 @@ export default function CriarCurso({ centros }: CriarCursoProps) {
     try {
       setIsLoading(true);
 
-      await api.post("/cursos", formData);
-      router.replace("/alunos");
+      let dataToSend: any = {
+        nome: formData.nome,
+        centroId: formData.centroId,
+      };
+
+      if (formData.ementa) {
+        dataToSend["ementa"] = formData.ementa;
+      }
+
+      await api.post("/cursos", dataToSend);
+      router.replace("/cursos");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ?? "Ocorreu um erro ao criar o curso!",
@@ -97,7 +106,7 @@ export default function CriarCurso({ centros }: CriarCursoProps) {
           <div>
             <textarea
               className={style.TextArea}
-              placeholder="Descrição"
+              placeholder="Ementa"
               {...register("ementa")}
             />
             {errors.ementa && (
@@ -149,7 +158,11 @@ export const getServerSideProps: GetServerSideProps<CriarCursoProps> = async (
   }
 
   try {
-    const response = await api.get(`/centros`);
+    const response = await api.get(`/centros`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = response.data["data"];
 
     return {
@@ -157,7 +170,8 @@ export const getServerSideProps: GetServerSideProps<CriarCursoProps> = async (
         centros: data,
       },
     };
-  } catch {
+  } catch (e) {
+    console.log(e);
     return {
       redirect: {
         destination: "/cursos",

@@ -35,7 +35,16 @@ export function NavBar() {
             </Link>
           )}
           {user?.cargo.posicao == "DIRETOR" && (
-            <Link href="/eventos" className={styles.linksMenu}>
+            <Link
+              href="/coordenadores"
+              className={`${styles.linksMenu} ${
+                [
+                  "/coordenadores",
+                  "/criarCoordenador",
+                  "/coordenadores/[id]",
+                ].includes(route) && styles.linksMenuActive
+              }`}
+            >
               Coordenadores
             </Link>
           )}
@@ -59,20 +68,46 @@ export function NavBar() {
               Locais
             </Link>
           )}
-          <Link
-            href="/cursos"
-            className={`${styles.linksMenu} ${
-              ["/cursos", "/criarCurso", "/cursos/[id]"].includes(route) &&
-              styles.linksMenuActive
-            }`}
-          >
-            Cursos
-          </Link>
+          {user?.cargo.posicao == "DIRETOR" && (
+            <Link
+              href="/centros"
+              className={`${styles.linksMenu} ${
+                ["/centros", "/criarCentro", "/centros/[id]"].includes(route) &&
+                styles.linksMenuActive
+              }`}
+            >
+              Centros
+            </Link>
+          )}
+          {user?.cargo.posicao == "DIRETOR" && (
+            <Link
+              href="/cursos"
+              className={`${styles.linksMenu} ${
+                ["/cursos", "/criarCurso", "/cursos/[id]"].includes(route) &&
+                styles.linksMenuActive
+              }`}
+            >
+              Cursos
+            </Link>
+          )}
         </div>
 
-        <button onClick={() => signOut()} className={styles.buttonSair}>
-          Sair
-        </button>
+        <div>
+          <section
+            style={{
+              width: "100%",
+              padding: 12,
+            }}
+          >
+            <h3>{user?.nome}</h3>
+            <h4>{user?.codigo}</h4>
+            <p>{user?.cargo.posicao}</p>
+          </section>
+
+          <button onClick={() => signOut()} className={styles.buttonSair}>
+            Sair
+          </button>
+        </div>
       </section>
     </div>
   );

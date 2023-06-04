@@ -7,15 +7,21 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 type EventosProps = {
   eventos: Evento[];
+  error?: string;
 };
 
 export default function Eventos(props: EventosProps) {
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
+    if (props.error) {
+      toast.error(props.error);
+    }
+
     setEventos(props.eventos);
   }, []);
 
@@ -112,7 +118,11 @@ export const getServerSideProps: GetServerSideProps<EventosProps> = async (
   }
 
   try {
-    const response = await api.get(`/eventos`);
+    const response = await api.get(`/eventos/dashboard`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = response.data["data"];
 
     return {
@@ -120,11 +130,12 @@ export const getServerSideProps: GetServerSideProps<EventosProps> = async (
         eventos: data,
       },
     };
-  } catch {
+  } catch (e) {
+    console.log(e);
     return {
-      redirect: {
-        destination: "/eventos",
-        permanent: false,
+      props: {
+        eventos: [],
+        error: "Ocorreu um erro ao buscar eventos!",
       },
     };
   }
