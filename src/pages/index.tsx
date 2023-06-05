@@ -1,6 +1,7 @@
 import { AuthContext } from "@/contexts/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useContext, useState } from "react";
@@ -45,65 +46,70 @@ export default function TelaLogin() {
   }
 
   return (
-    <div className={style.limiter}>
-      <div className={style.containerLogin}>
-        <div className={style.wrapLogin}>
-          <div className={style.loginForm}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className={style.loginFormTitle}
-            >
-              <span className={style.entrar}>Entrar</span>
+    <>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <div className={style.limiter}>
+        <div className={style.containerLogin}>
+          <div className={style.wrapLogin}>
+            <div className={style.loginForm}>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={style.loginFormTitle}
+              >
+                <span className={style.entrar}>Entrar</span>
 
-              <div>
-                <input
-                  className={style.wrapRa}
-                  type="text"
-                  placeholder="Digite seu RA"
-                  {...register("ra")}
-                />
-                {errors.ra && (
-                  <span className={style.errorMessage}>
-                    {errors.ra.message}
-                  </span>
-                )}
-              </div>
+                <div>
+                  <input
+                    className={style.wrapRa}
+                    type="text"
+                    placeholder="Digite seu RA"
+                    {...register("ra")}
+                  />
+                  {errors.ra && (
+                    <span className={style.errorMessage}>
+                      {errors.ra.message}
+                    </span>
+                  )}
+                </div>
 
-              <br />
-
-              <div>
-                <input
-                  className={style.wrapSenha}
-                  type="password"
-                  placeholder="Digite sua senha"
-                  {...register("senha")}
-                />
-                {errors.senha && (
-                  <span className={style.errorMessage}>
-                    {errors.senha.message}
-                  </span>
-                )}
-              </div>
-
-              <br />
-              <div className={style.containerLoginFormBtn}>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={style.loginFormBtn}
-                >
-                  {isLoading ? "Carregando..." : "Acessar"}
-                </button>
                 <br />
-                <Link href="esqueci-senha" className={style.esqueceuSenha}>
-                  Esqueceu sua senha?
-                </Link>
-              </div>
-            </form>
+
+                <div>
+                  <input
+                    className={style.wrapSenha}
+                    type="password"
+                    placeholder="Digite sua senha"
+                    {...register("senha")}
+                  />
+                  {errors.senha && (
+                    <span className={style.errorMessage}>
+                      {errors.senha.message}
+                    </span>
+                  )}
+                </div>
+
+                <br />
+                <div className={style.containerLoginFormBtn}>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={style.loginFormBtn}
+                  >
+                    {isLoading ? "Carregando..." : "Acessar"}
+                  </button>
+                  <br />
+                  <Link href="esqueci-senha" className={style.esqueceuSenha}>
+                    Esqueceu sua senha?
+                  </Link>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

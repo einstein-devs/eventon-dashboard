@@ -5,6 +5,7 @@ import style from "@/styles/eventos.module.css";
 import { HOST_API } from "@/utils/api-config";
 import { Gear } from "@phosphor-icons/react";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
@@ -22,9 +23,9 @@ export default function Eventos(props: EventosProps) {
   useEffect(() => {
     if (props.error) {
       toast.error(props.error);
+    } else {
+      setEventos(props.eventos);
     }
-
-    setEventos(props.eventos);
   }, []);
 
   async function getEventos(search?: string) {
@@ -35,7 +36,7 @@ export default function Eventos(props: EventosProps) {
         params["search"] = search;
       }
 
-      const response = await api.get("/eventos", {
+      const response = await api.get("/eventos/dashboard", {
         params: params,
       });
       const responseData = response.data;
@@ -53,79 +54,85 @@ export default function Eventos(props: EventosProps) {
   }
 
   return (
-    <div className={style.App}>
-      <NavBar />
+    <>
+      <Head>
+        <title>Eventos</title>
+      </Head>
+      <div className={style.App}>
+        <NavBar />
 
-      <div className={style.Div_dashboard}>
-        <section className={style.SearchWrapper}>
-          <input
-            type="text"
-            placeholder="Pesquise pelo nome do evento"
-            className={style.Input}
-            onChange={(event) => onChangeEvento(event)}
-          />
-          <Link href="/criarEventos" className={style.CriarEventos}>
-            Criar eventos
-          </Link>
-        </section>
+        <div className={style.Div_dashboard}>
+          <section className={style.SearchWrapper}>
+            <input
+              type="text"
+              placeholder="Pesquise pelo nome do evento"
+              className={style.Input}
+              onChange={(event) => onChangeEvento(event)}
+            />
+            <Link href="/criarEventos" className={style.CriarEventos}>
+              Criar eventos
+            </Link>
+          </section>
 
-        <div className={style.DivEventos}>
-          {eventos.length == 0 && (
-            <div>
-              <p>Nenhum evento foi encontrado!</p>
-            </div>
-          )}
-          {eventos.map((evento) => {
-            const isFinalizado =
-              new Date(evento.dataHoraTermino).valueOf() <= dataAtual.valueOf();
+          <div className={style.DivEventos}>
+            {eventos.length == 0 && (
+              <div>
+                <p>Nenhum evento foi encontrado!</p>
+              </div>
+            )}
+            {eventos.map((evento) => {
+              const isFinalizado =
+                new Date(evento.dataHoraTermino).valueOf() <=
+                dataAtual.valueOf();
 
-            return (
-              <Link
-                key={evento.id}
-                className={style.a}
-                href={`/eventos/${evento.id}`}
-              >
-                <div
-                  style={
-                    evento.urlImagem
-                      ? {
-                          backgroundImage: `url('${HOST_API}/imagens/${evento.urlImagem}')`,
-                        }
-                      : {
-                          background: "#f5f5f5",
-                        }
-                  }
-                  className={style.EventoItem}
+              return (
+                <Link
+                  key={evento.id}
+                  className={style.a}
+                  href={`/eventos/${evento.id}`}
                 >
                   <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
+                    style={
+                      evento.urlImagem
+                        ? {
+                            backgroundImage: `url('${HOST_API}/imagens/${evento.urlImagem}')`,
+                          }
+                        : {
+                            background: "#f5f5f5",
+                          }
+                    }
+                    className={style.EventoItem}
                   >
-                    <p className={style.p}>{evento.titulo}</p>
-                    {!isFinalizado && (
-                      <Link
-                        href={`/editarEventos/${evento.id}`}
-                        className="text-2xl bg-white"
-                      >
-                        <Gear />
-                      </Link>
-                    )}
-                    {isFinalizado && (
-                      <div className="bg-white px-4">
-                        <p className="text-red-500">Evento finalizado!</p>
-                      </div>
-                    )}
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <p className={style.p}>{evento.titulo}</p>
+                      {!isFinalizado && (
+                        <Link
+                          href={`/editarEventos/${evento.id}`}
+                          className="text-2xl bg-white"
+                        >
+                          <Gear />
+                        </Link>
+                      )}
+                      {isFinalizado && (
+                        <div className="bg-white px-4">
+                          <p className="text-red-500">Evento finalizado!</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
