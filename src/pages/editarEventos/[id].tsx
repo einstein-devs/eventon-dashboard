@@ -1,10 +1,14 @@
 import { NavBar } from "@/components/navbar";
+import { Evento } from "@/entities/evento";
 import { Local } from "@/entities/local";
 import { api } from "@/services/api";
 import style from "@/styles/criarEventos.module.css";
+import { formatarDataBanco } from "@/utils/formater";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CaretLeft } from "@phosphor-icons/react";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsImage, BsPlusCircle } from "react-icons/bs";
@@ -77,56 +81,43 @@ const schema = z
     }
   });
 
+type EditarEventoProps = {
+  evento: Evento;
+  locais: Local[];
+};
+
 type EventoFormData = z.infer<typeof schema>;
 
-export default function CriarEventos() {
+export default function EditarEvento({ locais, evento }: EditarEventoProps) {
   const {
     handleSubmit,
     register,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<EventoFormData>({
     resolver: zodResolver(schema),
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [locais, setLocais] = useState<Local[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
   const selectedImage = watch("image")?.[0];
 
   useEffect(() => {
-    loadScreen();
+    setValue("titulo", evento.titulo);
+    setValue("localId", evento.local.id);
+    setValue("dataHoraInicio", formatarDataBanco(evento.dataHoraInicio));
+    setValue("dataHoraTermino", formatarDataBanco(evento.dataHoraTermino));
   }, []);
-
-  async function loadScreen() {
-    setIsLoading(true);
-
-    await Promise.all([getLocais()]);
-
-    setIsLoading(false);
-  }
-
-  async function getLocais() {
-    try {
-      const response = await api.get("/locais");
-      const responseData = response.data;
-
-      setLocais(responseData["data"]);
-    } catch {}
-  }
 
   async function onSubmit(formData: EventoFormData) {
     try {
-      setErrorMessage(null);
       setIsLoading(true);
 
-      let dataToSend = new FormData();
-
-      console.log("formdata");
-      console.log(formData);
+      const dataToSend = new FormData();
+      dataToSend.append("TETE", "TETETE");
 
       dataToSend.append("localId", formData.localId);
       dataToSend.append("titulo", formData.titulo);
@@ -142,11 +133,12 @@ export default function CriarEventos() {
       }
 
       await api.put(`/eventos/${router.query["id"]}`, dataToSend);
-      console.log(dataToSend);
-      // await router.replace("/eventos");
+      await router.replace("/eventos");
     } catch (error: any) {
+      console.log(error);
       toast.error(
-        error?.response?.data?.message ?? "Ocorreu um erro ao criar o evento!",
+        error?.response?.data?.message ??
+          "Ocorreu um erro ao atualizar o evento!",
         {
           closeButton: true,
           closeOnClick: true,
@@ -159,14 +151,6 @@ export default function CriarEventos() {
 
   function voltarPaginaAnterior() {
     router.back();
-  }
-
-  if (isLoading) {
-    return (
-      <div className={style.App}>
-        <p>Carregando...</p>
-      </div>
-    );
   }
 
   return (
@@ -302,9 +286,56 @@ export default function CriarEventos() {
             </div>
           </section>
 
-          <button className={style.loginFormBtn}>Editar evento</button>
+          <button disabled={isLoading} className={style.loginFormBtn}>
+            {isLoading ? "Carregando..." : "Editar evento"}
+          </button>
         </form>
       </div>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<EditarEventoProps> = async (
+  context
+) => {
+  const { "@eventon-dashboard.token": token } = parseCookies(context);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const responseCursos = await api.get("/locais", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const locais = responseCursos.data["data"];
+
+    const responseEventos = await api.get(`/eventos/${context.query["id"]}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const evento = responseEventos.data["data"];
+
+    return {
+      props: {
+        evento,
+        locais,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/eventos",
+        permanent: false,
+      },
+    };
+  }
+};

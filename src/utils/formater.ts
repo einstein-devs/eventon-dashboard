@@ -16,6 +16,21 @@ export function formatarData(dataUTC: any) {
   return `${dia}/${mes}/${ano} às ${horas}:${minutos}`;
 }
 
+export function formatarDataBanco(dataUTC: any) {
+  const dataUTCObj = new Date(dataUTC);
+  const dataBrasilObj = new Date(
+    dataUTCObj.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+  );
+
+  const dia = dataBrasilObj.getDate().toString().padStart(2, "0");
+  const mes = (dataBrasilObj.getMonth() + 1).toString().padStart(2, "0");
+  const ano = dataBrasilObj.getFullYear().toString();
+  const horas = dataBrasilObj.getHours().toString().padStart(2, "0");
+  const minutos = dataBrasilObj.getMinutes().toString().padStart(2, "0");
+
+  return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+}
+
 export function formatarDataParaCertificado(
   dataHoraInicio: Date,
   dataHoraTermino: Date

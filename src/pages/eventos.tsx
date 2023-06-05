@@ -3,12 +3,12 @@ import { Evento } from "@/entities/evento";
 import { api } from "@/services/api";
 import style from "@/styles/eventos.module.css";
 import { HOST_API } from "@/utils/api-config";
+import { Gear } from "@phosphor-icons/react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Gear } from "@phosphor-icons/react";
 
 type EventosProps = {
   eventos: Evento[];
@@ -16,6 +16,7 @@ type EventosProps = {
 };
 
 export default function Eventos(props: EventosProps) {
+  const dataAtual = new Date();
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
@@ -75,6 +76,9 @@ export default function Eventos(props: EventosProps) {
             </div>
           )}
           {eventos.map((evento) => {
+            const isFinalizado =
+              new Date(evento.dataHoraTermino).valueOf() <= dataAtual.valueOf();
+
             return (
               <Link
                 key={evento.id}
@@ -101,7 +105,19 @@ export default function Eventos(props: EventosProps) {
                     }}
                   >
                     <p className={style.p}>{evento.titulo}</p>
-                    <Link href= {`/editarEventos/${evento.id}` } ><Gear/></Link>
+                    {!isFinalizado && (
+                      <Link
+                        href={`/editarEventos/${evento.id}`}
+                        className="text-2xl bg-white"
+                      >
+                        <Gear />
+                      </Link>
+                    )}
+                    {isFinalizado && (
+                      <div className="bg-white px-4">
+                        <p className="text-red-500">Evento finalizado!</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Link>

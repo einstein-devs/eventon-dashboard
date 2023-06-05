@@ -134,7 +134,7 @@ export default function InfoEventos(props: InfoEventos) {
           </button>
         )}
 
-        {!evento.codigo && !isIniciado() && isFinalizado() && (
+        {!evento.codigo && !isIniciado() && !isFinalizado() && (
           <p
             style={{
               color: "red",

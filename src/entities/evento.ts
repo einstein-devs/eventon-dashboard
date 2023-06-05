@@ -11,6 +11,7 @@ export class Evento {
   dataHoraTermino: Date;
   inscritos: number;
   local: {
+    id: string;
     titulo: string;
     descricao?: string;
   };

@@ -64,8 +64,7 @@ export function AuthProvider({ children }: any) {
 
   async function signOut() {
     destroyCookie(undefined, "@eventon-dashboard.token");
-
-    await Router.replace("/");
+    Router.push("/");
     setUser(null);
   }
 
