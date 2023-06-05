@@ -75,7 +75,7 @@ export default function TelaLogin() {
                 <input
                   className={style.wrapSenha}
                   type="password"
-                  placeholder="Digie sua senha"
+                  placeholder="Digite sua senha"
                   {...register("senha")}
                 />
                 {errors.senha && (
