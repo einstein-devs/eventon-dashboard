@@ -92,7 +92,18 @@ export default function InfoEventos(props: InfoEventos) {
 
         <div className={style.wrapperInfo}>
           <p>Local: {evento.local.titulo}</p>
-          <p>Refêrencia do local: {evento.local.descricao}</p>
+          {evento.local.descricao && (
+            <p>Refêrencia do local: {evento.local.descricao}</p>
+          )}
+          {!evento.local.descricao && (
+            <p
+              style={{
+                color: "red",
+              }}
+            >
+              Sem refêrencia de local
+            </p>
+          )}
           <br />
           <p>Data e hora de início: {formatarData(evento.dataHoraInicio)}</p>
           <p>Data e hora de término: {formatarData(evento.dataHoraTermino)}</p>
