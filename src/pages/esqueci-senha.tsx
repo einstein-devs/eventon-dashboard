@@ -1,66 +1,88 @@
-import { GetServerSideProps } from "next";
-import Link from "next/link";
-import { parseCookies } from "nookies";
-import style from "../styles/esqueci-senha.module.css";
+import { api } from "@/services/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CaretLeft } from "@phosphor-icons/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
 
-export default function EsqueciSenha() {
-  return (
-    <div className={style.container}>
-      <div className={style.conteudo}>
-        <div className={style.h2}>
-          <div className={style.form}>
-            <Link href="./" className={style.voltar}>
-              <svg
-                width="12"
-                height="18"
-                viewBox="0 0 12 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11 17L1 9L11 1"
-                  stroke="black"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Link>
-            <span className={style.recuperar}>Recuperar senha</span>
-            <br />
-            <input
-              className={style.input}
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Digite seu email"
-              required
-            />
-            <br />
-            <Link href="/redefinir-senha" className={style.esqueciBtn}>
-              Enviar recuperação
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+const schema = z.object({
+  email: z.string().email(),
+});
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { "@eventon-dashboard.token": token } = parseCookies(ctx);
+type EsqueciSenhaFormData = z.infer<typeof schema>;
 
-  if (token) {
-    return {
-      redirect: {
-        destination: "/eventos",
-        permanent: false,
-      },
-      props: {},
-    };
+export default function EsqueciSenhaPage() {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<EsqueciSenhaFormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  function voltarPaginaAnterior() {
+    router.back();
   }
 
-  return {
-    props: {},
-  };
-};
+  async function onSubmit(data: EsqueciSenhaFormData) {
+    try {
+      setIsLoading(true);
+
+      await api.post("/usuarios/esqueci-senha", {
+        email: data.email,
+        enviarParaDashboard: true,
+      });
+      voltarPaginaAnterior();
+      toast.info(
+        "Foi enviado um e-mail de confirmação, para alteração de senha!"
+      );
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data.message ?? "Ocorreu um erro ao redefinir senha!",
+        {
+          closeButton: true,
+          closeOnClick: true,
+        }
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <main className="h-screen w-screen bg-white flex items-center justify-center">
+      <div className="w-full max-w-[400px] flex flex-1 flex-col p-6 gap-y-3">
+        <div className="flex items-center gap-x-2">
+          <button onClick={voltarPaginaAnterior} className="text-orange-400">
+            <CaretLeft size={24} weight={"bold"} />
+          </button>
+          <h1 className="text-2xl font-bold">Recuperar senha</h1>
+        </div>
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-2 w-full text-center"
+        >
+          <input
+            type="text"
+            placeholder="E-mail"
+            className="h-[42px] px-4 w-full text-md bg-gray-50 border border-gray-100 rounded-lg"
+            {...register("email")}
+          />
+
+          <button
+            disabled={isLoading}
+            className="mt-8 text-white h-[42px] flex items-center justify-center bg-orange-400 font-bold w-full rounded-lg"
+          >
+            {isLoading ? "Carregando..." : "Enviar recuperação"}
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
