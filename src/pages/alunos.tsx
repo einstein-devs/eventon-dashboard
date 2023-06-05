@@ -6,6 +6,7 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { Pen, Trash } from "@phosphor-icons/react";
 
 export default function AlunosPage() {
   const [alunos, setAlunos] = useState<Aluno[]>([]);
@@ -68,6 +69,7 @@ export default function AlunosPage() {
                 <th>E-mail</th>
                 <th>Curso</th>
                 <th>Cargo</th>
+                <th>Ações</th>
               </tr>
               {alunos.map((aluno) => {
                 return (
@@ -90,6 +92,12 @@ export default function AlunosPage() {
                     <td>{aluno.email}</td>
                     <td>{aluno?.curso?.nome ?? "-"}</td>
                     <td>{aluno.cargo.posicao}</td>
+                    <td>
+                      {" "}
+                      <Link href={`/editarAluno/${aluno.codigo}`}>
+                        <Pen />
+                      </Link>
+                    </td>
                   </tr>
                 );
               })}

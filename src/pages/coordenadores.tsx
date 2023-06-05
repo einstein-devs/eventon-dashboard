@@ -6,6 +6,7 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { Pen, Trash } from "@phosphor-icons/react";
 
 export default function CoordenadoresPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -68,6 +69,7 @@ export default function CoordenadoresPage() {
                 <th>E-mail</th>
                 <th>Curso</th>
                 <th>Cargo</th>
+                <th>Ações</th>
               </tr>
               {usuarios.map((coordenador) => {
                 return (
@@ -90,6 +92,14 @@ export default function CoordenadoresPage() {
                     <td>{coordenador.email}</td>
                     <td>{coordenador?.cursoCoordenado?.nome ?? "-"}</td>
                     <td>{coordenador.cargo.posicao}</td>
+                    <td>
+                      <Link href={`/editarCoordenador/${coordenador.codigo}`}>
+                        <Pen />
+                      </Link>
+                      <button>
+                        <Trash />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
