@@ -3,6 +3,10 @@ export class Curso {
   nome: string;
   ementa?: string;
   quantidadeAlunos: number;
+  coordenador: {
+    id: string;
+    nome: string;
+  };
   centro: {
     nome: string;
   };
@@ -12,6 +16,7 @@ export class Curso {
     this.nome = props.nome;
     this.ementa = props.ementa;
     this.quantidadeAlunos = props.quantidadeAlunos;
+    this.coordenador = props.coordenador;
     this.centro = props.centro;
   }
 }

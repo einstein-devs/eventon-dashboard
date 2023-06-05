@@ -8,6 +8,7 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Gear } from "@phosphor-icons/react";
 
 type EventosProps = {
   eventos: Evento[];
@@ -92,7 +93,16 @@ export default function Eventos(props: EventosProps) {
                   }
                   className={style.EventoItem}
                 >
-                  <p className={style.p}>{evento.titulo}</p>
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p className={style.p}>{evento.titulo}</p>
+                    <Link href= {`/editarEventos/${evento.id}` } ><Gear/></Link>
+                  </div>
                 </div>
               </Link>
             );

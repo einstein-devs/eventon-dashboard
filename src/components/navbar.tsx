@@ -27,8 +27,12 @@ export function NavBar() {
             <Link
               href="/alunos"
               className={`${styles.linksMenu} ${
-                ["/alunos", "/criarAluno", "/alunos/[id]"].includes(route) &&
-                styles.linksMenuActive
+                [
+                  "/alunos",
+                  "/criarAluno",
+                  "/editarAluno/[id]",
+                  "/alunos/[id]",
+                ].includes(route) && styles.linksMenuActive
               }`}
             >
               Alunos
@@ -41,6 +45,7 @@ export function NavBar() {
                 [
                   "/coordenadores",
                   "/criarCoordenador",
+                  "/editarCoordenador/[id]",
                   "/coordenadores/[id]",
                 ].includes(route) && styles.linksMenuActive
               }`}

@@ -8,9 +8,11 @@ export class Usuario {
     posicao: string;
   };
   cursoCoordenado: {
+    id: string;
     nome: string;
   };
   curso: {
+    id: string;
     nome: string;
   };
 

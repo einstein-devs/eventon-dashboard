@@ -2,10 +2,12 @@ import { NavBar } from "@/components/navbar";
 import { Aluno } from "@/entities/aluno";
 import { api } from "@/services/api";
 import style from "@/styles/alunos.module.css";
+import { Pen, Trash } from "@phosphor-icons/react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AlunosPage() {
   const [alunos, setAlunos] = useState<Aluno[]>([]);
@@ -39,6 +41,22 @@ export default function AlunosPage() {
     }
   }
 
+  async function onClickDelete(codigoCurso: string) {
+    try {
+      await api.delete(`/usuarios/alunos/${codigoCurso}`);
+
+      setAlunos([...alunos.filter((item) => item.codigo != codigoCurso)]);
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ?? "Ocorreu um erro ao deletar aluno!",
+        {
+          closeButton: true,
+          closeOnClick: true,
+        }
+      );
+    }
+  }
+
   return (
     <div className={style.App}>
       <NavBar />
@@ -68,6 +86,7 @@ export default function AlunosPage() {
                 <th>E-mail</th>
                 <th>Curso</th>
                 <th>Cargo</th>
+                <th>Ações</th>
               </tr>
               {alunos.map((aluno) => {
                 return (
@@ -90,6 +109,14 @@ export default function AlunosPage() {
                     <td>{aluno.email}</td>
                     <td>{aluno?.curso?.nome ?? "-"}</td>
                     <td>{aluno.cargo.posicao}</td>
+                    <td>
+                      <Link href={`/editarAluno/${aluno.codigo}`}>
+                        <Pen />
+                      </Link>
+                      <button onClick={() => onClickDelete(aluno.codigo)}>
+                        <Trash />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

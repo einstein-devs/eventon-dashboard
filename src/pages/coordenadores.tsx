@@ -2,13 +2,15 @@ import { NavBar } from "@/components/navbar";
 import { Usuario } from "@/entities/usuario";
 import { api } from "@/services/api";
 import style from "@/styles/cursos.module.css";
+import { Pen, Trash } from "@phosphor-icons/react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CoordenadoresPage() {
-  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [coordenadores, setCoordenadores] = useState<Usuario[]>([]);
 
   useEffect(() => {
     getCoordenadores();
@@ -27,7 +29,7 @@ export default function CoordenadoresPage() {
       });
       const responseData = response.data;
 
-      setUsuarios(responseData["data"]);
+      setCoordenadores(responseData["data"]);
     } catch {}
   }
 
@@ -36,6 +38,25 @@ export default function CoordenadoresPage() {
 
     if (search || search == "") {
       await getCoordenadores(search);
+    }
+  }
+
+  async function onClickDelete(codigoCurso: string) {
+    try {
+      await api.delete(`/usuarios/coordenadores/${codigoCurso}`);
+
+      setCoordenadores([
+        ...coordenadores.filter((item) => item.codigo != codigoCurso),
+      ]);
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ??
+          "Ocorreu um erro ao deletar coordenador!",
+        {
+          closeButton: true,
+          closeOnClick: true,
+        }
+      );
     }
   }
 
@@ -57,9 +78,9 @@ export default function CoordenadoresPage() {
         </section>
 
         <div className={style.DivCursos}>
-          {usuarios.length == 0 && <p>Nenhum coordenador encontrado!</p>}
+          {coordenadores.length == 0 && <p>Nenhum coordenador encontrado!</p>}
 
-          {usuarios.length > 0 && (
+          {coordenadores.length > 0 && (
             <table id="table">
               <tr>
                 <th>#</th>
@@ -68,8 +89,9 @@ export default function CoordenadoresPage() {
                 <th>E-mail</th>
                 <th>Curso</th>
                 <th>Cargo</th>
+                <th>Ações</th>
               </tr>
-              {usuarios.map((coordenador) => {
+              {coordenadores.map((coordenador) => {
                 return (
                   <tr key={coordenador.id}>
                     <td>{coordenador.id}</td>
@@ -90,6 +112,14 @@ export default function CoordenadoresPage() {
                     <td>{coordenador.email}</td>
                     <td>{coordenador?.cursoCoordenado?.nome ?? "-"}</td>
                     <td>{coordenador.cargo.posicao}</td>
+                    <td>
+                      <Link href={`/editarCoordenador/${coordenador.codigo}`}>
+                        <Pen />
+                      </Link>
+                      <button onClick={() => onClickDelete(coordenador.codigo)}>
+                        <Trash />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

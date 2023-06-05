@@ -66,17 +66,20 @@ export default function CursosPage() {
                 <th>Nome</th>
                 <th>Ementa</th>
                 <th>Centro</th>
+                <th>Coordenador</th>
                 <th>Quantidade Alunos</th>
               </tr>
               {cursos.map((curso) => {
                 return (
                   <tr key={curso.id}>
-                    <td>{curso.id}</td>
                     <td
                       style={{
                         width: "200px",
                       }}
                     >
+                      {curso.id}
+                    </td>
+                    <td>
                       <p
                         style={{
                           textOverflow: "ellipsis",
@@ -87,6 +90,7 @@ export default function CursosPage() {
                     </td>
                     <td>{curso.ementa ?? "-"}</td>
                     <td>{curso.centro.nome}</td>
+                    <td>{curso.coordenador?.nome ?? "-"}</td>
                     <td>{curso.quantidadeAlunos}</td>
                   </tr>
                 );
